@@ -1,3 +1,4 @@
+<?php include('connexion.php') ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,6 +68,19 @@
 
             <label class="f-f" for="Selection">Auteurs:</label>
             <select class="input" id="Selection" type="select" name="nameautor" style="width: 250px; height:30px">
+                <?php
+                $query = "SELECT * FROM `auteurs`";
+                $result = mysqli_query($connection, $query);
+                if (!$result) {
+                    die("Erreur" . mysqli_error($connection));
+                } else {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                        <option class="f-f" value="<?php echo $row["id"] ?>"><?php echo $row["nom"] ?></option>
+                <?php
+                    }
+                }
+                ?>
             </select>
             <label class="f-f" for="Version">Version:</label>
             <input class="input" type="text" name="versions" style="width: 250px; height:20px">
