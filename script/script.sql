@@ -6,6 +6,7 @@ USE gestion_packages;
 CREATE TABLE Auteurs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100) NOT NULL
+    email VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Packages (

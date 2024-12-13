@@ -37,7 +37,25 @@
                     <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
-            <div class="Auteures"></div>
+            <div class="Auteures">
+                <?php
+                $affiche = "SELECT * FROM auteurs";
+                $result = mysqli_query($connection, $affiche);
+                if (!$result) {
+                    die("Erreur" . mysqli_error());
+                } else {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                        <div class="cartes">
+                            <p>nom: <?php echo $row["nom"] ?></p>
+                            <p>Email: <?php echo $row["email"] ?></p>
+                            <a href="delete.php?id=<?php echo $row["id"] ?>"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                <?php
+                    }
+                }
+                ?>
+            </div>
         </div>
         <!-- Boutton 2 -->
         <div style="justify-items: center;">
@@ -48,23 +66,37 @@
                 </button>
             </div>
             <div class="Packages">
-                <div class="cartes"></div>
-                <div class="cartes"></div>
-                <div class="cartes"></div>
-                <div class="cartes"></div>
-                <div class="cartes"></div>
-                <div class="cartes"></div>
-                <div class="cartes"></div>
-                <div class="cartes"></div>
-                <div class="cartes"></div>
+                <?php
+                $affiche = "SELECT packages.id, packages.nom, packages.version, packages.déscription, auteurs.nom as auteur_nom FROM packages JOIN auteurs ON packages.auteur_id = auteurs.id";
+                $result = mysqli_query($connection, $affiche);
+                if (!$result) {
+                    die("Erreur" . mysqli_error());
+                } else {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                        <div class="cartes">
+                            <div class="ND">
+                                <p>Nom-Package: <?php echo $row["nom"] ?></p>
+                                <a href="deletepackages.php?id=<?php echo $row["id"] ?>"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+
+                            <p>Auteurs: <?php echo $row["auteur_nom"] ?></p>
+                            <p>Version: <?php echo $row["version"] ?></p>
+                            <p>Description: <?php echo $row["déscription"] ?></p>
+
+                        </div>
+                <?php
+                    }
+                }
+                ?>
 
 
             </div>
         </div>
         <!-- Formulaires -->
-        <form class="form" action="add.php" method="POST">
+        <form class="form" action="addpackages.php" method="POST">
             <label class="f-f" for="Name">Nom-Package:</label>
-            <input class="input" type="text" name="namePackage" style="width: 250px; height:30px">
+            <input class="input" type="text" name="namePackage">
 
             <label class="f-f" for="Selection">Auteurs:</label>
             <select class="input" id="Selection" type="select" name="nameautor" style="width: 250px; height:30px">
@@ -86,13 +118,26 @@
             <input class="input" type="text" name="versions" style="width: 250px; height:20px">
 
             <label class="f-f" for="Description">Description:</label>
-            <input class="input" type="text" name="description" style="width: 250px; height:90px">
+            <textarea class="input" type="text" name="description" style="width: 250px; height:90px"></textarea>
 
 
             <button class="btn-submit" name="submit" type="submit">Submit</button>
         </form>
+        <!-- Formulaires auteures -->
+        <form class="form-auteur" action="addauteurs.php" method="POST">
+            <label class="f-f" for="Name">Nom-Auteur:</label>
+            <input class="input" type="text" name="nameAuthor">
 
-        <script src="assets/js/script.js"></script>
+            <label class="f-f" for="email">Email:</label>
+
+            <input class="input" type="email" name="email" style="width: 250px; height:20px">
+
+            <button class="btn-submit" name="submit" type="submit">Submit</button>
+        </form>
+
+
+    </div>
+    <script src="assets/js/script.js"></script>
 </body>
 
 </html>
